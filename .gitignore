@@ -1,0 +1,8 @@
+tasks.txt
+scheme/
+Pipfile
+Pipfile.lock
+.env
+__pycache__
+docker-entrypoint-initdb.d
+logs

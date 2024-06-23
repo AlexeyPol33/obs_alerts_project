@@ -1,0 +1,9 @@
+.git
+.cache
+*.md
+tasks.txt
+scheme/
+Pipfile
+Pipfile.lock
+.env
+__pycache__

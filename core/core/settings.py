@@ -24,11 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-xwph)%prml(vyd0oqqb(hzm-cjabwgq&4^o4lp5&i%v%i9obg@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = getenv('DEBUG', True)
+ALLOWED_HOSTS = [getenv('ALLOWED_HOSTS', '*')]
 
-ALLOWED_HOSTS = []
-
-
+SITE_DOMAIN = getenv('SITE_DOMAIN', default='127.0.0.1:8000')
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'user_cabinet',
-
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [

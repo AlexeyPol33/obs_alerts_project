@@ -1,3 +1,5 @@
+from abc import ABC, abstractmethod
+
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.validators import UnicodeUsernameValidator
@@ -5,6 +7,7 @@ from django.core.validators import MinValueValidator
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
 from django.db import models
+
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -72,3 +75,36 @@ class User(AbstractUser):
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Список пользователей'
         ordering = ('email',)
+
+
+class Configurations(models.Model):
+    user = models.OneToOneField(
+        User,
+        verbose_name='Пользователь',
+        on_delete=models.CASCADE
+        )
+
+
+class Plugins(models.Model):
+    configuration = models.ManyToManyField(
+        Configurations,
+        )
+    image = models.URLField()
+    display_url = models.URLField()
+    class Meta:
+        abstract = True
+
+
+class DonationBar(Plugins):
+    description = models.CharField(max_length=500,)
+    current_value = models.IntegerField()
+    target_value = models.IntegerField()
+    pass
+
+
+class MessageAlert(Plugins):
+    sender_name = models.CharField(max_length=100)
+    sound = models.URLField()
+    message = models.TextField()
+
+

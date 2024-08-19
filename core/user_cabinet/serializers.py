@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import Token
-from .models import User
+from .models import User, Configurations, DonationBar, MessageAlert
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -25,10 +25,35 @@ class UserSerializer(serializers.ModelSerializer):
     
     def update(self, instance, validated_data):
         return super().update(instance, validated_data)
-    
+
+
 class ObtainTokenSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user) -> Token:
         token = super().get_token(user)
         token['username'] = user.username
         return token
+
+
+class DonationBarSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DonationBar
+        pass
+
+    def create(self, validated_data):
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        return super().update(instance, validated_data)
+
+
+
+class MessageAlertSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MessageAlert
+
+    def create(self, validated_data):
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        return super().update(instance, validated_data)

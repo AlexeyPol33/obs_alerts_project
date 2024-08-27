@@ -96,15 +96,13 @@ class Plugins(models.Model):
 
 
 class DonationBar(Plugins):
-    description = models.CharField(max_length=500,)
-    current_value = models.IntegerField()
-    target_value = models.IntegerField()
-    pass
+    description = models.CharField(max_length=500,default= None)
+    target_value = models.IntegerField(default=0)
 
 
 class MessageAlert(Plugins):
-    sender_name = models.CharField(max_length=100)
-    sound = models.URLField()
-    message = models.TextField()
+    sound = models.URLField(default=None)
+
+
 
 

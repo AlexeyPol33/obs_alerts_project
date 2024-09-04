@@ -11,6 +11,8 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from user_cabinet.models import User
 
 
+URL = '/user/'
+
 @pytest.fixture
 def api_client():
     return APIClient()
@@ -46,12 +48,13 @@ def incorrect_user_data():
 
 @pytest.mark.django_db
 def test_connection(api_client: APIClient):
+
     response = api_client.get('')
     assert response.status_code == 200
 
 @pytest.mark.django_db
 def test_correct_registration(api_client: APIClient, correct_user_data: list):
-    URL = '/user/'
+
     for user in correct_user_data:
         response = api_client.post(URL,user)
         user_obj = User.objects.filter(username=user['username']).first()
@@ -59,7 +62,17 @@ def test_correct_registration(api_client: APIClient, correct_user_data: list):
         assert user_obj.username == user['username']
         assert check_password(user['password'], user_obj.password)
         assert user_obj.email == user['email']
-        
 
+@pytest.mark.django_db
+def test_user_permissions(api_client: APIClient, correct_user_data: list):
+    for user in correct_user_data:
+        response = api_client.post(URL,user)
+        assert response.status_code == 201
+        token = api_client.post('/api/token/',user)
+        assert token.status_code == 200
+        response = api_client.get(URL)
+        response = api_client.put(URL)
+        response = api_client.patch(URL)
         
+    pass
 

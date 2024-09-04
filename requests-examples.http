@@ -16,5 +16,11 @@ Content-Type: application/json
 
 ###
 
-#Вход
-POST {{baseUrl}}/user/login
+#Получить токен
+POST {{baseUrl}}/api/token/
+Content-Type: application/json
+
+{
+    "email":"test@email.com",
+    "password":"password"
+}

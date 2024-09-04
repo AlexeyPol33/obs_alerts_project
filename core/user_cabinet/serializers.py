@@ -4,6 +4,14 @@ from rest_framework_simplejwt.tokens import Token
 from .models import User, Configurations, DonationBar, MessageAlert
 
 
+class ObtainTokenSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user) -> Token:
+        token = super().get_token(user)
+        token['username'] = user.username
+        return token
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
 
@@ -25,14 +33,6 @@ class UserSerializer(serializers.ModelSerializer):
     
     def update(self, instance, validated_data):
         return super().update(instance, validated_data)
-
-
-class ObtainTokenSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user) -> Token:
-        token = super().get_token(user)
-        token['username'] = user.username
-        return token
 
 
 class DonationBarSerializer(serializers.ModelSerializer):
